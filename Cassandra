@@ -1,1 +1,87 @@
 
+CREATE KEYSPACE movies WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 1};
+cqlsh: use movies;
+cqlsh:movies>CREATE TABLE movie_ticket_registration (
+    customer_id text,
+    movie_name text,
+    movie_date date,
+    movie_time timestamp,
+    theater_location text,
+    seat_number text,
+    ticket_price decimal,
+    PRIMARY KEY (customer_id, movie_date)
+);
+
+
+cqlsh:movies> INSERT INTO movie_ticket_registration (customer_id, movie_name, movie_date, movie_time, theatre_location, seat_number, ticket_price)
+VALUES ('1234', 'the avengers', '2023-04-15', '10:00:00', 'AMC Theatre', 'A5', 120);
+
+cqlsh:movies> INSERT INTO movie_ticket_registration (customer_id, movie_name, movie_date, movie_time, theatre_location, seat_number, ticket_price)
+VALUES ('1235', 'plane', '2023-03-24', '04:00:00', 'ABC Theatre', 'B5', 200);
+
+cqlsh:movies> INSERT INTO movie_ticket_registration (customer_id, movie_name, movie_date, movie_time, theatre_location, seat_number, ticket_price)
+VALUES ('1236', 'sharper', '2023-02-11', '08:00:00', 'XYZ Theatre', 'F7', 300);
+
+cqlsh:movies> INSERT INTO movie_ticket_registration (customer_id, movie_name, movie_date, movie_time, theatre_location, seat_number, ticket_price)
+VALUES ('1237', 'ghosted', '2022-11-23', '12:00:00', 'SDG Theatre', 'H2', 180);
+
+cqlsh:movies> INSERT INTO movie_ticket_registration (customer_id, movie_name, movie_date, movie_time, theatre_location, seat_number, ticket_price)
+VALUES ('1238', 'wish', '2023-04-30', '06:00:00', 'VBN Theatre', 'G6', 320);
+
+cqlsh:movies> INSERT INTO movie_ticket_registration (customer_id, movie_name, movie_date, movie_time, theatre_location, seat_number, ticket_price)
+VALUES ('1239', 'the marvels', '2022-05-25', '10:00:00', 'TYD Theatre', 'D9', 230);
+
+cqlsh:movies> INSERT INTO movie_ticket_registration (customer_id, movie_name, movie_date, movie_time, theatre_location, seat_number, ticket_price)
+VALUES ('1231', 'the war', '2021-04-08', '14:00:00', 'JLJ Theatre', 'B3', 400);
+
+ customer_id | movie_date | seat_number | movie_time | movie_name   | theatre_location | ticket_price
+-------------+------------+-------------+------------+--------------+------------------+--------------
+        1239 | 2022-05-25 |          D9 |   10:00:00 |  the marvels |      TYD Theatre |          230
+        1234 | 2023-04-15 |          A5 |   10:00:00 | the avengers |      AMC Theatre |          120
+        1238 | 2023-04-30 |          G6 |   06:00:00 |         wish |      VBN Theatre |          320
+        1236 | 2023-02-11 |          F7 |   08:00:00 |      sharper |      XYZ Theatre |          300
+        1231 | 2021-04-08 |          B3 |   14:00:00 |      the war |      JLJ Theatre |          400  
+        1235 | 2023-03-24 |          B5 |   04:00:00 |        plane |      ABC Theatre |          200
+        1237 | 2022-11-23 |          H2 |   12:00:00 |      ghosted |      SDG Theatre |          180
+
+(7 rows)
+
+
+cqlsh:movies> DELETE FROM movie_ticket_registration WHERE customer_id = '1234' AND movie_date = '2023-04-15';
+cqlsh:movies> SELECT * FROM movies;
+
+ customer_id | movie_date | seat_number | movie_time | movie_name   | theatre_location | ticket_price
+-------------+------------+-------------+------------+--------------+------------------+--------------
+        1239 | 2022-05-25 |          D9 |   10:00:00 |  the marvels |      TYD Theatre |          230
+        1238 | 2023-04-30 |          G6 |   06:00:00 |         wish |      VBN Theatre |          320
+        1236 | 2023-02-11 |          F7 |   08:00:00 |      sharper |      XYZ Theatre |          300
+        1231 | 2021-04-08 |          B3 |   14:00:00 |      the war |      JLJ Theatre |          400  
+        1235 | 2023-03-24 |          B5 |   04:00:00 |        plane |      ABC Theatre |          200
+        1237 | 2022-11-23 |          H2 |   12:00:00 |      ghosted |      SDG Theatre |          180
+
+(6 rows)
+
+
+cqlsh:movies> UPDATE movie_ticket_registration SET seat_number = 'A4' WHERE customer_id = '1234' AND movie_date = '2023-04-15';
+cqlsh:movies> SELECT * FROM movies;
+
+ customer_id | movie_date | seat_number | movie_time | movie_name   | theatre_location | ticket_price
+-------------+------------+-------------+------------+--------------+------------------+--------------
+        1239 | 2022-05-25 |          D9 |   10:00:00 |  the marvels |      TYD Theatre |          230
+        1234 | 2023-04-15 |          A4 |   10:00:00 | the avengers |      AMC Theatre |          120
+        1238 | 2023-04-30 |          G6 |   06:00:00 |         wish |      VBN Theatre |          320
+        1236 | 2023-02-11 |          F7 |   08:00:00 |      sharper |      XYZ Theatre |          300
+        1231 | 2021-04-08 |          B3 |   14:00:00 |      the war |      JLJ Theatre |          400  
+        1235 | 2023-03-24 |          B5 |   04:00:00 |        plane |      ABC Theatre |          200
+        1237 | 2022-11-23 |          H2 |   12:00:00 |      ghosted |      SDG Theatre |          180
+
+(6 rows)
+
+
+cqlsh:movies> SELECT * FROM movie_ticket_registration WHERE customer_id = '1234' AND movie_date = '2023-04-15';
+
+ customer_id | movie_date | seat_number | movie_time | movie_name   | theatre_location | ticket_price
+-------------+------------+-------------+------------+--------------+------------------+--------------
+        1234 | 2023-04-15 |          A5 |   10:00:00 | the avengers |      AMC Theatre |          120
+
+(1 row)
